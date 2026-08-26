@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="Obligee" table="surety_obligee" type="effdated" desc="Designated beneficiary (Owner / Government Agency) of the surety bond obligation.">
+  <column name="ObligeeName" type="shorttext" nullok="false" desc="Legal name of owner, municipality, or state agency"/>
+  <column name="ObligeeType" type="shorttext" nullok="false" desc="PUBLIC_FEDERAL, PUBLIC_STATE_MUNICIPAL, PRIVATE_COMMERCIAL"/>
+  <column name="Address" type="shorttext" nullok="false" desc="Obligee mailing address"/>
+  <column name="JurisdictionState" type="shorttext" nullok="false" desc="State governing statutory bond enforcement"/>
+</entity>

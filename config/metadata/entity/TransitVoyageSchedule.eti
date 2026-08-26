@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="TransitVoyageSchedule" table="marine_voyage_sched" type="effdated" desc="Scheduled commercial vessel voyage, port of origin, port of destination, and flag state.">
+  <column name="VesselName" type="shorttext" nullok="false" desc="Vessel commercial name or IMO number"/>
+  <column name="VesselAgeYears" type="integer" nullok="false" desc="Age of the vessel in years"/>
+  <column name="FlagState" type="shorttext" nullok="false" desc="Vessel registered flag country"/>
+  <column name="OriginPort" type="shorttext" nullok="false" desc="Seaport of origin"/>
+  <column name="DestinationPort" type="shorttext" nullok="false" desc="Seaport of discharge"/>
+  <column name="EstimatedTransitDays" type="integer" nullok="false" desc="Estimated duration of maritime voyage in days"/>
+</entity>

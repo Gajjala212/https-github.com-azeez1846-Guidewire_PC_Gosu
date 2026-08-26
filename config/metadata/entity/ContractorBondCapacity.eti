@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="ContractorBondCapacity" table="contractor_bond_capacity" type="effdated" desc="Contractor financial underwriting ratios and single / aggregate bonding capacity limits.">
+  <column name="WorkingCapital" type="decimal" precision="14" scale="2" nullok="false" desc="Current Assets minus Current Liabilities"/>
+  <column name="NetWorth" type="decimal" precision="14" scale="2" nullok="false" desc="Total Stockholders Equity / Tangible Net Worth"/>
+  <column name="SingleJobCapacity" type="decimal" precision="14" scale="2" nullok="false" desc="Maximum allowable single project bond limit"/>
+  <column name="AggregateCapacity" type="decimal" precision="14" scale="2" nullok="false" desc="Maximum cumulative work-in-progress bonding limit"/>
+  <column name="ActiveWorkInProgress" type="decimal" precision="14" scale="2" nullok="false" desc="Current uncompleted bonded backlog"/>
+  <column name="AvailableBondingCapacity" type="decimal" precision="14" scale="2" nullok="false" desc="Remaining uncommitted aggregate capacity"/>
+</entity>

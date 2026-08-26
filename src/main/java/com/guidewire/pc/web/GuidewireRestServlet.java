@@ -303,6 +303,31 @@ public class GuidewireRestServlet extends HttpServlet {
             return;
         }
 
+        if (path.startsWith("/policy/effdated-timeline")) {
+            String policyNum = req.getParameter("policyNumber");
+            String inc = req.getParameter("inceptionDate");
+            String exp = req.getParameter("expirationDate");
+            String premStr = req.getParameter("baseAnnualPremium");
+            BigDecimal prem = premStr != null ? new BigDecimal(premStr) : new BigDecimal("24000.00");
+            boolean oos = Boolean.parseBoolean(req.getParameter("includeOosEndorsement"));
+
+            var timeline = com.guidewire.pc.service.EffDatedTimelineVisualizerService.getInstance().generateTimelineSlices(policyNum, inc, exp, prem, oos);
+            objectMapper.writeValue(resp.getWriter(), timeline.toMap());
+            return;
+        }
+
+        if (path.startsWith("/dealroom/")) {
+            String policyNum = path.substring("/dealroom/".length());
+            var thread = com.guidewire.pc.service.UWDealRoomService.getInstance().getDealRoom(policyNum);
+            if (thread != null) {
+                objectMapper.writeValue(resp.getWriter(), thread.toMap());
+            } else {
+                var defThread = com.guidewire.pc.service.UWDealRoomService.getInstance().createOrEscalateDeal(policyNum, null, null, null, null, null);
+                objectMapper.writeValue(resp.getWriter(), defThread.toMap());
+            }
+            return;
+        }
+
         resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         objectMapper.writeValue(resp.getWriter(), Map.of("error", "Endpoint not found: " + path));
     }
@@ -1535,6 +1560,175 @@ public class GuidewireRestServlet extends HttpServlet {
 
             var res = com.guidewire.pc.service.CatReinsuranceReinstatementEngine.getInstance().calculateCatReinstatement(treatyRef, layerDesc, limit, prem, loss, eff, lossDate, exp, rate);
             objectMapper.writeValue(resp.getWriter(), com.guidewire.pc.service.CatReinsuranceReinstatementEngine.getInstance().toMap(res));
+            return;
+        }
+
+        if (path != null && (path.equals("/cyber/accumulation-assess") || path.equals("/cyber/rate-and-assess"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String pol = (String) reqMap.getOrDefault("policyNumber", "POL-CYBER-8801");
+            BigDecimal lim = new BigDecimal(reqMap.getOrDefault("requestedLimit", "2000000.00").toString());
+            boolean mfa = Boolean.parseBoolean(String.valueOf(reqMap.getOrDefault("mfaEnforced", true)));
+            boolean backups = Boolean.parseBoolean(String.valueOf(reqMap.getOrDefault("offlineBackupsDaily", true)));
+            boolean edr = Boolean.parseBoolean(String.valueOf(reqMap.getOrDefault("edrDeployed", true)));
+            double phish = reqMap.get("phishingPassRatePct") != null ? ((Number) reqMap.get("phishingPassRatePct")).doubleValue() : 92.0;
+            boolean dns = Boolean.parseBoolean(String.valueOf(reqMap.getOrDefault("dnsFilteringActive", true)));
+            String cloud = (String) reqMap.getOrDefault("primaryCloudProvider", "AWS");
+            BigDecimal rev = new BigDecimal(reqMap.getOrDefault("annualRevenue", "15000000.00").toString());
+
+            var res = com.guidewire.pc.service.CyberAccumulationEngine.getInstance().evaluateAndRate(pol, lim, mfa, backups, edr, phish, dns, cloud, rev);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && (path.equals("/surety/bond-capacity-and-quote") || path.equals("/surety/quote"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String name = (String) reqMap.getOrDefault("contractorName", "Apex General Contractors LLC");
+            String type = (String) reqMap.getOrDefault("bondType", "PERFORMANCE");
+            BigDecimal contractSum = new BigDecimal(reqMap.getOrDefault("contractSum", "1500000.00").toString());
+            BigDecimal wc = new BigDecimal(reqMap.getOrDefault("workingCapital", "450000.00").toString());
+            BigDecimal nw = new BigDecimal(reqMap.getOrDefault("netWorth", "900000.00").toString());
+            BigDecimal wip = new BigDecimal(reqMap.getOrDefault("activeWIP", "1100000.00").toString());
+            BigDecimal col = new BigDecimal(reqMap.getOrDefault("collateralHeld", "0.00").toString());
+            String obligee = (String) reqMap.getOrDefault("obligeeName", "State Dept of Transportation");
+            String obType = (String) reqMap.getOrDefault("obligeeType", "PUBLIC_STATE_MUNICIPAL");
+
+            var res = com.guidewire.pc.service.SuretyBondService.getInstance().evaluateBondAndCapacity(name, type, contractSum, wc, nw, wip, col, obligee, obType);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && (path.equals("/marine/rate-voyage-cargo") || path.equals("/marine/rate"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String pol = (String) reqMap.getOrDefault("policyNumber", "POL-MAR-5001");
+            BigDecimal inv = new BigDecimal(reqMap.getOrDefault("invoiceValue", "750000.00").toString());
+            String comm = (String) reqMap.getOrDefault("commodityType", "GENERAL_DRY");
+            String clause = (String) reqMap.getOrDefault("clauseType", "CLAUSES_A_ALL_RISK");
+            String vessel = (String) reqMap.getOrDefault("vesselName", "MV Pacific Navigator");
+            int age = reqMap.get("vesselAge") != null ? ((Number) reqMap.get("vesselAge")).intValue() : 8;
+            String flag = (String) reqMap.getOrDefault("flagState", "MARSHALL_ISLANDS");
+            boolean war = Boolean.parseBoolean(String.valueOf(reqMap.getOrDefault("warStrikesIncluded", true)));
+            boolean piracy = Boolean.parseBoolean(String.valueOf(reqMap.getOrDefault("piracyCorridorIncluded", false)));
+            BigDecimal portExp = new BigDecimal(reqMap.getOrDefault("existingPortExposure", "1200000.00").toString());
+
+            var res = com.guidewire.pc.service.OceanMarineRatingEngine.getInstance().rateVoyageCargo(pol, inv, comm, clause, vessel, age, flag, war, piracy, portExp);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && (path.equals("/actuarial/simulate-rate-impact") || path.equals("/actuarial/simulate"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            double cp = reqMap.get("propertyRateDeltaPct") != null ? ((Number) reqMap.get("propertyRateDeltaPct")).doubleValue() : 8.0;
+            double gl = reqMap.get("generalLiabilityDeltaPct") != null ? ((Number) reqMap.get("generalLiabilityDeltaPct")).doubleValue() : 4.5;
+            double ca = reqMap.get("commercialAutoDeltaPct") != null ? ((Number) reqMap.get("commercialAutoDeltaPct")).doubleValue() : 12.0;
+            double wc = reqMap.get("workersCompDeltaPct") != null ? ((Number) reqMap.get("workersCompDeltaPct")).doubleValue() : -2.0;
+            double cyber = reqMap.get("cyberDeltaPct") != null ? ((Number) reqMap.get("cyberDeltaPct")).doubleValue() : 15.0;
+
+            var res = com.guidewire.pc.service.PortfolioSimulationService.getInstance().simulateRateChanges(cp, gl, ca, wc, cyber);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && (path.equals("/intake/parse-acord-loss-runs") || path.equals("/intake/triage"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String name = (String) reqMap.getOrDefault("insuredName", "Horizon Logistics & Warehousing Inc");
+            String lob = (String) reqMap.getOrDefault("lineOfBusiness", "COMMERCIAL_AUTO");
+            BigDecimal prem = new BigDecimal(reqMap.getOrDefault("estimatedAnnualPremium", "45000.00").toString());
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> lossData = (List<Map<String, Object>>) reqMap.get("annualLossData");
+
+            var res = com.guidewire.pc.service.AcordLossRunParserService.getInstance().parseLossRunsAndTriage(name, lob, prem, lossData);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && (path.equals("/parametric/oracle-evaluate") || path.equals("/parametric/oracle"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String pol = (String) reqMap.getOrDefault("policyNumber", "POL-PARAMETRIC-7701");
+            String peril = (String) reqMap.getOrDefault("perilType", "EARTHQUAKE_USGS");
+            String loc = (String) reqMap.getOrDefault("locationAddress", "San Francisco Waterfront Port, CA");
+            double lat = reqMap.get("latitude") != null ? ((Number) reqMap.get("latitude")).doubleValue() : 37.7749;
+            double lon = reqMap.get("longitude") != null ? ((Number) reqMap.get("longitude")).doubleValue() : -122.4194;
+            BigDecimal lim = new BigDecimal(reqMap.getOrDefault("contractLimit", "2500000.00").toString());
+            double tele = reqMap.get("measuredTelemetryValue") != null ? ((Number) reqMap.get("measuredTelemetryValue")).doubleValue() : 0.72;
+
+            var res = com.guidewire.pc.service.ParametricOracleEngine.getInstance().evaluatePerilTrigger(pol, peril, loc, lat, lon, lim, tele);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && path.equals("/policy/effdated-slices")) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String pol = (String) reqMap.getOrDefault("policyNumber", "POL-COMM-9901");
+            String inc = (String) reqMap.getOrDefault("termInceptionDate", "2026-01-01");
+            String exp = (String) reqMap.getOrDefault("termExpirationDate", "2027-01-01");
+            BigDecimal prem = new BigDecimal(reqMap.getOrDefault("baseAnnualPremium", "24000.00").toString());
+            boolean oos = Boolean.parseBoolean(String.valueOf(reqMap.getOrDefault("includeOosEndorsement", true)));
+
+            var res = com.guidewire.pc.service.EffDatedTimelineVisualizerService.getInstance().generateTimelineSlices(pol, inc, exp, prem, oos);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && (path.equals("/dealroom/escalate") || path.equals("/dealroom/create"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String pol = (String) reqMap.getOrDefault("policyNumber", "POL-DEAL-1001");
+            String name = (String) reqMap.getOrDefault("insuredName", "Titan Heavy Manufacturing Corp");
+            BigDecimal prem = new BigDecimal(reqMap.getOrDefault("totalPremium", "350000.00").toString());
+            BigDecimal lim = new BigDecimal(reqMap.getOrDefault("aggregateLimit", "10000000.00").toString());
+            String note = (String) reqMap.getOrDefault("initialNote", "Escalated for senior review due to high manufacturing capacity and $10M aggregate limits.");
+            String cond = (String) reqMap.getOrDefault("condition", "Subjective: Satisfactory Loss Control survey within 45 days of binding.");
+
+            var res = com.guidewire.pc.service.UWDealRoomService.getInstance().createOrEscalateDeal(pol, name, prem, lim, note, cond);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && path.equals("/dealroom/action")) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String pol = (String) reqMap.getOrDefault("policyNumber", "POL-DEAL-1001");
+            String act = (String) reqMap.getOrDefault("action", "APPROVE");
+            String rev = (String) reqMap.getOrDefault("reviewerName", "Victoria Vance");
+            String role = (String) reqMap.getOrDefault("role", "CHIEF_UNDERWRITING_OFFICER");
+            String comment = (String) reqMap.getOrDefault("comment", "Approved under Special Risk delegated authority with subjective survey clause.");
+
+            var res = com.guidewire.pc.service.UWDealRoomService.getInstance().performAction(pol, act, rev, role, comment);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && (path.equals("/billing/premium-finance/quote-and-noa") || path.equals("/billing/premium-finance"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String pol = (String) reqMap.getOrDefault("policyNumber", "POL-COMM-8001");
+            BigDecimal prem = new BigDecimal(reqMap.getOrDefault("policyPremium", "50000.00").toString());
+            String pfc = (String) reqMap.getOrDefault("financeCompanyName", "AFCO Premium Credit Corp");
+            double down = reqMap.get("downPaymentPercent") != null ? ((Number) reqMap.get("downPaymentPercent")).doubleValue() : 20.0;
+            double apr = reqMap.get("aprPct") != null ? ((Number) reqMap.get("aprPct")).doubleValue() : 8.75;
+            int inst = reqMap.get("installmentCount") != null ? ((Number) reqMap.get("installmentCount")).intValue() : 9;
+
+            var res = com.guidewire.pc.service.PremiumFinanceEngine.getInstance().createFinanceAgreementAndNOA(pol, prem, pfc, down, apr, inst);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
+            return;
+        }
+
+        if (path != null && (path.equals("/gosu/repl-evaluate") || path.equals("/gosu/execute"))) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reqMap = objectMapper.readValue(req.getInputStream(), Map.class);
+            String gosu = (String) reqMap.getOrDefault("gosuCode", "var baseRate = 0.35;\nvar premium = period.TotalPremium * baseRate;\nreturn premium;");
+            BigDecimal lim = new BigDecimal(reqMap.getOrDefault("sampleLimit", "1000000.00").toString());
+            int iters = reqMap.get("benchmarkIterations") != null ? ((Number) reqMap.get("benchmarkIterations")).intValue() : 1000;
+
+            var res = com.guidewire.pc.service.GosuReplEngine.getInstance().evaluateGosuScript(gosu, lim, iters);
+            objectMapper.writeValue(resp.getWriter(), res.toMap());
             return;
         }
 

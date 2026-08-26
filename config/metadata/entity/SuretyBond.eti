@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="SuretyBond" table="surety_bond" type="effdated" desc="Commercial and Contract Surety Bond instrument (Bid, Performance, Payment, License &amp; Permit).">
+  <column name="BondNumber" type="shorttext" nullok="false" desc="Unique bond identification number"/>
+  <column name="BondType" type="shorttext" nullok="false" desc="Bond category: BID, PERFORMANCE, PAYMENT, LICENSE_PERMIT"/>
+  <column name="ContractSum" type="decimal" precision="14" scale="2" nullok="false" desc="Underlying construction contract or obligation sum"/>
+  <column name="PenalSum" type="decimal" precision="14" scale="2" nullok="false" desc="Maximum penalty amount of the surety bond"/>
+  <column name="BondRatePerThousand" type="decimal" precision="8" scale="2" nullok="false" desc="Base rate per $1,000 penal sum"/>
+  <column name="CollateralHeld" type="decimal" precision="12" scale="2" nullok="true" desc="Irrevocable letter of credit (ILOC) or cash collateral"/>
+  <column name="BondPremium" type="decimal" precision="12" scale="2" nullok="false" desc="Total earned surety bond premium"/>
+</entity>

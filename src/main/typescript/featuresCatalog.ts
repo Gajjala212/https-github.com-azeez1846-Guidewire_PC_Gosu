@@ -675,6 +675,168 @@ export const ENTERPRISE_FEATURES_CATALOG: FeatureModule[] = [
       { name: 'treatyAnnualCededPremium', label: 'Annual Ceded Treaty Premium ($)', type: 'number', defaultValue: 4000000.00, description: 'Annual treaty premium' },
       { name: 'catastrophicLossAmount', label: 'Catastrophic Incurred Loss ($)', type: 'number', defaultValue: 30000000.00, description: 'Loss amount allocated to layer' }
     ]
+  },
+  {
+    id: 'cyber-accumulation-assess',
+    title: 'Commercial Cyber Risk & Cloud Outage Accumulation Engine',
+    category: 'Specialty Lines',
+    shortDescription: 'Rates commercial cyber liability, scores MFA/EDR posture tiers, and models systemic cloud vendor outage accumulation loads (AWS, Azure, GCP).',
+    businessPurpose: 'Accurately prices first-party ransomware extortion and cloud contingent business interruption while managing systemic cyber portfolio concentration.',
+    endpoint: '/rest/v1/cyber/accumulation-assess',
+    method: 'POST',
+    inputs: [
+      { name: 'policyNumber', label: 'Policy Number', type: 'string', defaultValue: 'POL-CYBER-8801', description: 'Cyber risk policy identifier' },
+      { name: 'requestedLimit', label: 'Requested Aggregate Limit ($)', type: 'number', defaultValue: 2000000.00, description: 'Total cyber policy limit' },
+      { name: 'mfaEnforced', label: 'MFA Enforced on Endpoints', type: 'boolean', defaultValue: true, description: 'Mandatory Multi-Factor Authentication' },
+      { name: 'offlineBackupsDaily', label: 'Immutable Daily Backups', type: 'boolean', defaultValue: true, description: 'Air-gapped daily offline backups' },
+      { name: 'edrDeployed', label: 'EDR Antivirus Deployed', type: 'boolean', defaultValue: true, description: 'Endpoint Detection & Response' },
+      { name: 'phishingPassRatePct', label: 'Phishing Training Pass Rate %', type: 'number', defaultValue: 92.0, description: 'Employee simulation pass rate' },
+      { name: 'primaryCloudProvider', label: 'Primary Cloud Provider', type: 'string', defaultValue: 'AWS', description: 'AWS, AZURE, GCP, MULTI_CLOUD, ON_PREM' },
+      { name: 'annualRevenue', label: 'Annual Insured Revenue ($)', type: 'number', defaultValue: 15000000.00, description: 'Gross annual sales' }
+    ]
+  },
+  {
+    id: 'surety-bond-capacity',
+    title: 'Surety Bonds & Commercial Contract Guarantee Engine',
+    category: 'Specialty Lines',
+    shortDescription: 'Underwrites Bid, Performance, Payment, and License bonds, computing single-job and aggregate bonding capacity from contractor balance sheets.',
+    businessPurpose: 'Automates contract surety risk underwriting, capacity threshold validation, and obligee verification for commercial contractors.',
+    endpoint: '/rest/v1/surety/bond-capacity-and-quote',
+    method: 'POST',
+    inputs: [
+      { name: 'contractorName', label: 'Contractor Name', type: 'string', defaultValue: 'Apex General Contractors LLC', description: 'Principal bonded contractor' },
+      { name: 'bondType', label: 'Bond Type', type: 'string', defaultValue: 'PERFORMANCE', description: 'BID, PERFORMANCE, PAYMENT, LICENSE_PERMIT' },
+      { name: 'contractSum', label: 'Construction Contract Sum ($)', type: 'number', defaultValue: 1500000.00, description: 'Total contract value' },
+      { name: 'workingCapital', label: 'Net Working Capital ($)', type: 'number', defaultValue: 450000.00, description: 'Current Assets - Current Liabilities' },
+      { name: 'netWorth', label: 'Tangible Net Worth ($)', type: 'number', defaultValue: 900000.00, description: 'Total equity' },
+      { name: 'activeWIP', label: 'Active Work In Progress Backlog ($)', type: 'number', defaultValue: 1100000.00, description: 'Uncompleted bonded contracts' },
+      { name: 'obligeeName', label: 'Obligee (Project Owner)', type: 'string', defaultValue: 'State Dept of Transportation', description: 'Beneficiary of bond obligation' }
+    ]
+  },
+  {
+    id: 'ocean-marine-cargo',
+    title: 'Commercial Cargo & Ocean Marine Transit Floater',
+    category: 'Specialty Lines',
+    shortDescription: 'Rates maritime cargo voyages under Institute Cargo Clauses (A/B/C) with CIF+10% valuation, vessel age surcharges, and port accumulation limits.',
+    businessPurpose: 'Provides international open cargo underwriting and catastrophe accumulation control at major seaports.',
+    endpoint: '/rest/v1/marine/rate-voyage-cargo',
+    method: 'POST',
+    inputs: [
+      { name: 'policyNumber', label: 'Policy Number', type: 'string', defaultValue: 'POL-MAR-5001', description: 'Marine policy reference' },
+      { name: 'invoiceValue', label: 'Invoice Cargo Value ($)', type: 'number', defaultValue: 750000.00, description: 'Commercial invoice CIF cost' },
+      { name: 'commodityType', label: 'Commodity Type', type: 'string', defaultValue: 'GENERAL_DRY', description: 'GENERAL_DRY, PERISHABLES, ELECTRONICS, CRUDE_OIL' },
+      { name: 'clauseType', label: 'Institute Clauses', type: 'string', defaultValue: 'CLAUSES_A_ALL_RISK', description: 'CLAUSES_A_ALL_RISK, CLAUSES_B_NAMED, CLAUSES_C_MAJOR_CASUALTY' },
+      { name: 'vesselName', label: 'Vessel Name', type: 'string', defaultValue: 'MV Pacific Navigator', description: 'Commercial cargo ship' },
+      { name: 'vesselAge', label: 'Vessel Age (Years)', type: 'number', defaultValue: 8, description: 'Ship age in years' },
+      { name: 'warStrikesIncluded', label: 'Include War & Strikes Perils', type: 'boolean', defaultValue: true, description: 'Institute War & Strikes clauses' },
+      { name: 'piracyCorridorIncluded', label: 'Transiting High-Risk Piracy Corridor', type: 'boolean', defaultValue: false, description: 'Red Sea / Gulf of Aden surcharge' }
+    ]
+  },
+  {
+    id: 'actuarial-rate-simulation',
+    title: 'Actuarial Rate Change & Portfolio "What-If" Impact Simulator',
+    category: 'Reinsurance & Portfolio',
+    shortDescription: 'Simulates portfolio-wide financial impact of proposed line rate changes, modeling earned premium variance, renewal elasticity, and loss ratio shifts.',
+    businessPurpose: 'Empowers actuaries and chief underwriting officers to stress-test rate revisions across the active commercial book before filing.',
+    endpoint: '/rest/v1/actuarial/simulate-rate-impact',
+    method: 'POST',
+    inputs: [
+      { name: 'propertyRateDeltaPct', label: 'Property Rate Change (%)', type: 'number', defaultValue: 8.0, description: 'Commercial Property % rate adjustment' },
+      { name: 'generalLiabilityDeltaPct', label: 'GL Rate Change (%)', type: 'number', defaultValue: 4.5, description: 'General Liability % rate adjustment' },
+      { name: 'commercialAutoDeltaPct', label: 'Auto Rate Change (%)', type: 'number', defaultValue: 12.0, description: 'Commercial Auto % rate adjustment' },
+      { name: 'workersCompDeltaPct', label: 'Workers Comp Rate Change (%)', type: 'number', defaultValue: -2.0, description: 'Workers Comp % rate adjustment' },
+      { name: 'cyberDeltaPct', label: 'Cyber Rate Change (%)', type: 'number', defaultValue: 15.0, description: 'Cyber line % rate adjustment' }
+    ]
+  },
+  {
+    id: 'acord-loss-run-triage',
+    title: 'AI Autonomous Submission Intake & ACORD Loss Run Parser 2.0',
+    category: 'Underwriting & Risk',
+    shortDescription: 'Parses ACORD submissions and 5-year historical loss runs, computing Loss Development Triangles, loss severity velocity, and automated appetite routing.',
+    businessPurpose: 'Accelerates intake triage by turning raw prior carrier loss runs into instant actuarial triangles and triage recommendations.',
+    endpoint: '/rest/v1/intake/parse-acord-loss-runs',
+    method: 'POST',
+    inputs: [
+      { name: 'insuredName', label: 'Named Insured', type: 'string', defaultValue: 'Horizon Logistics & Warehousing Inc', description: 'Commercial applicant' },
+      { name: 'lineOfBusiness', label: 'Line of Business', type: 'string', defaultValue: 'COMMERCIAL_AUTO', description: 'Insurance line' },
+      { name: 'estimatedAnnualPremium', label: 'Estimated Annual Premium ($)', type: 'number', defaultValue: 45000.00, description: 'Estimated policy term premium' }
+    ]
+  },
+  {
+    id: 'parametric-cat-oracle',
+    title: 'Real-Time USGS / NOAA Parametric Catastrophe Oracle Platform',
+    category: 'Specialty Lines',
+    shortDescription: 'Evaluates live USGS Earthquake ShakeMaps (PGA / MMI) and NOAA Hurricane Barometric feeds for instant, zero-touch indemnity claim payouts.',
+    businessPurpose: 'Provides automated parametric disaster protection with instant FedNow wire transfers and automated reinsurance recoveries upon sensor breach.',
+    endpoint: '/rest/v1/parametric/oracle-evaluate',
+    method: 'POST',
+    inputs: [
+      { name: 'policyNumber', label: 'Policy Number', type: 'string', defaultValue: 'POL-PARAMETRIC-7701', description: 'Parametric contract number' },
+      { name: 'perilType', label: 'Peril Type', type: 'string', defaultValue: 'EARTHQUAKE_USGS', description: 'EARTHQUAKE_USGS or HURRICANE_NOAA' },
+      { name: 'locationAddress', label: 'Location Address', type: 'string', defaultValue: 'San Francisco Waterfront Port, CA', description: 'Sensor monitored facility' },
+      { name: 'contractLimit', label: 'Contract Indemnity Limit ($)', type: 'number', defaultValue: 2500000.00, description: 'Maximum parametric payout' },
+      { name: 'measuredTelemetryValue', label: 'Measured Sensor Telemetry (PGA in g / Pressure mbar)', type: 'number', defaultValue: 0.72, description: 'Live recorded sensor reading' }
+    ]
+  },
+  {
+    id: 'effdated-slice-visualizer',
+    title: 'Interactive EffDated Policy Slice Visualizer & Time-Travel Explorer',
+    category: 'Commercial Rating & Retrospective',
+    shortDescription: 'Decomposes effective-dated policy periods into continuous non-overlapping date slices, mapping pro-rata earned premiums and out-of-sequence merges.',
+    businessPurpose: 'Provides visual transparency into retroactive endorsement slice boundaries and multi-exposure timeline splits.',
+    endpoint: '/rest/v1/policy/effdated-slices',
+    method: 'POST',
+    inputs: [
+      { name: 'policyNumber', label: 'Policy Number', type: 'string', defaultValue: 'POL-COMM-9901', description: 'EffDated policy identifier' },
+      { name: 'baseAnnualPremium', label: 'Base Annual Premium ($)', type: 'number', defaultValue: 24000.00, description: 'Inception annual rate' },
+      { name: 'includeOosEndorsement', label: 'Include Out-of-Sequence Endorsement', type: 'boolean', defaultValue: true, description: 'Simulates retroactive slice merge' }
+    ]
+  },
+  {
+    id: 'uw-collaborative-dealroom',
+    title: 'Underwriter Collaborative Deal Room & Referral Authority Workflow',
+    category: 'Underwriting & Risk',
+    shortDescription: 'Manages multi-tier underwriting authority escalation (Line UW -> Senior UW -> Regional Director -> CUO) with subjective binder conditions and audit trails.',
+    businessPurpose: 'Enables high-capacity commercial deal governance and compliance-stamped collaborative peer reviews.',
+    endpoint: '/rest/v1/dealroom/escalate',
+    method: 'POST',
+    inputs: [
+      { name: 'policyNumber', label: 'Policy Number', type: 'string', defaultValue: 'POL-DEAL-1001', description: 'High-hazard submission job #' },
+      { name: 'insuredName', label: 'Named Insured', type: 'string', defaultValue: 'Titan Heavy Manufacturing Corp', description: 'Commercial enterprise account' },
+      { name: 'totalPremium', label: 'Total Premium ($)', type: 'number', defaultValue: 350000.00, description: 'Account total written premium' },
+      { name: 'aggregateLimit', label: 'Aggregate Policy Limit ($)', type: 'number', defaultValue: 10000000.00, description: 'Requested aggregate capacity' },
+      { name: 'initialNote', label: 'Underwriter Case Note', type: 'string', defaultValue: 'Escalated for senior review due to high manufacturing capacity and $10M aggregate limits.', description: 'Referral rationale' }
+    ]
+  },
+  {
+    id: 'premium-financing-noa',
+    title: 'Commercial Premium Financing (PFC) & Notice of Assignment Engine',
+    category: 'Commercial Rating & Retrospective',
+    shortDescription: 'Generates third-party Premium Finance agreements (AFCO/IPFS), calculating down payments, APR monthly installment schedules, and legal NOA payloads.',
+    businessPurpose: 'Automates premium finance onboarding, electronic Notice of Assignment generation, and Power of Attorney default cancellation reconciliation.',
+    endpoint: '/rest/v1/billing/premium-finance/quote-and-noa',
+    method: 'POST',
+    inputs: [
+      { name: 'policyNumber', label: 'Policy Number', type: 'string', defaultValue: 'POL-COMM-8001', description: 'Financed commercial policy #' },
+      { name: 'policyPremium', label: 'Gross Financed Premium ($)', type: 'number', defaultValue: 50000.00, description: 'Total policy premium' },
+      { name: 'financeCompanyName', label: 'Premium Finance Company', type: 'string', defaultValue: 'AFCO Premium Credit Corp', description: 'PFC legal name' },
+      { name: 'downPaymentPercent', label: 'Down Payment (%)', type: 'number', defaultValue: 20.0, description: 'Initial deposit requirement' },
+      { name: 'aprPct', label: 'Finance APR (%)', type: 'number', defaultValue: 8.75, description: 'Annual percentage interest rate' },
+      { name: 'installmentCount', label: 'Installment Count', type: 'number', defaultValue: 9, description: 'Number of monthly payments (8, 9, 10)' }
+    ]
+  },
+  {
+    id: 'gosu-repl-sandbox',
+    title: 'Interactive Gosu Rules & Rating Sandbox (Web REPL & Loom Benchmark)',
+    category: 'Underwriting & Risk',
+    shortDescription: 'Executes dynamic Gosu rating expressions and rules against in-memory policy periods, benchmarking Java 23 Virtual Threads against platform thread concurrency.',
+    businessPurpose: 'Accelerates developer rule testing and validates high-throughput virtual thread execution speedups for Guidewire rating routines.',
+    endpoint: '/rest/v1/gosu/repl-evaluate',
+    method: 'POST',
+    inputs: [
+      { name: 'sampleLimit', label: 'Sample Policy Limit ($)', type: 'number', defaultValue: 1000000.00, description: 'Rating exposure basis' },
+      { name: 'benchmarkIterations', label: 'Benchmark Iteration Count', type: 'number', defaultValue: 1000, description: 'Concurrent rating simulations (up to 10,000)' }
+    ]
   }
 ];
 

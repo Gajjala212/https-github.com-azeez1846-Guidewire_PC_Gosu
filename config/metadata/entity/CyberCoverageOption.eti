@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="CyberCoverageOption" table="cyber_cov_option" type="effdated" desc="Cyber liability coverage limits, ransomware extortion sublimits, and privacy notification terms.">
+  <column name="AggregateLimit" type="decimal" precision="14" scale="2" nullok="false" desc="Cyber aggregate policy limit"/>
+  <column name="RansomwareSublimit" type="decimal" precision="14" scale="2" nullok="false" desc="Ransomware extortion and decryption sublimit"/>
+  <column name="CloudDowntimeBILimit" type="decimal" precision="14" scale="2" nullok="false" desc="Contingent business interruption from cloud vendor outage"/>
+  <column name="RetentionAmount" type="decimal" precision="12" scale="2" nullok="false" desc="Self-insured retention / deductible"/>
+  <column name="CalculatedPremium" type="decimal" precision="12" scale="2" nullok="true" desc="Final rated cyber premium"/>
+</entity>

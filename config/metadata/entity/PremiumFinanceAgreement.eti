@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="PremiumFinanceAgreement" table="prem_finance_agree" type="effdated" desc="Commercial Premium Finance Company (PFC) agreement, Notice of Assignment (NOA), and Power of Attorney (POA) terms.">
+  <column name="FinanceCompanyName" type="shorttext" nullok="false" desc="Name of third-party premium finance company e.g. AFCO, IPFS"/>
+  <column name="TotalFinancedAmount" type="decimal" precision="12" scale="2" nullok="false" desc="Gross policy premium financed"/>
+  <column name="DownPaymentAmount" type="decimal" precision="12" scale="2" nullok="false" desc="Required down payment (20-25%)"/>
+  <column name="APR" type="decimal" precision="5" scale="2" nullok="false" desc="Annual percentage rate interest"/>
+  <column name="InstallmentCount" type="integer" nullok="false" desc="Number of monthly installments e.g. 8, 9, 10"/>
+  <column name="MonthlyInstallmentAmount" type="decimal" precision="12" scale="2" nullok="false" desc="Monthly recurring installment amount"/>
+  <column name="NoticeOfAssignmentStatus" type="shorttext" nullok="false" desc="NOA status: PENDING, ACKNOWLEDGED, ACTIVE, CANCELLED"/>
+  <column name="PowerOfAttorneyGranted" type="bit" nullok="false" desc="PFC holds legal power of attorney to request cancellation upon default"/>
+</entity>

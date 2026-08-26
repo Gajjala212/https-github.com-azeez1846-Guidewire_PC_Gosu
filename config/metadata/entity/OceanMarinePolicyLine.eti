@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="OceanMarinePolicyLine" table="marine_policy_line" type="effdated" desc="Ocean Marine Open Cargo and Transit policy line definition.">
+  <column name="PolicyType" type="shorttext" nullok="false" desc="OPEN_CARGO, SINGLE_VOYAGE, HULL_MACHINERY"/>
+  <column name="AnnualConveyanceLimit" type="decimal" precision="14" scale="2" nullok="false" desc="Maximum conveyance liability limit per vessel"/>
+  <column name="PortAccumulationLimit" type="decimal" precision="14" scale="2" nullok="false" desc="Maximum aggregate cargo exposure at any single seaport"/>
+  <column name="InstituteClausesType" type="shorttext" nullok="false" desc="CLAUSES_A_ALL_RISK, CLAUSES_B_NAMED, CLAUSES_C_MAJOR_CASUALTY"/>
+</entity>

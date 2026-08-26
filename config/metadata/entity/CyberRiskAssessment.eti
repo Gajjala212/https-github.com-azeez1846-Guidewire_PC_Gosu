@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="CyberRiskAssessment" table="cyber_risk_assessment" type="effdated" desc="Commercial Cyber security posture assessment, MFA enforcement, and cloud provider accumulation metrics.">
+  <column name="MFAEnforced" type="bit" nullok="false" desc="Multi-Factor Authentication enforced across all corporate endpoints"/>
+  <column name="OfflineBackupsDaily" type="bit" nullok="false" desc="Immutable air-gapped daily backups"/>
+  <column name="EDRDeployed" type="bit" nullok="false" desc="Endpoint Detection and Response deployed on all workstations"/>
+  <column name="PhishingTrainingPassRate" type="decimal" precision="5" scale="2" nullok="false" desc="Quarterly employee phishing simulation pass rate percentage"/>
+  <column name="PrimaryCloudProvider" type="shorttext" nullok="false" desc="Primary Cloud Provider (AWS, Azure, GCP, OnPrem)"/>
+  <column name="CloudOutageAccumulationFactor" type="decimal" precision="5" scale="3" nullok="false" desc="Systemic vendor dependency accumulation load factor"/>
+  <column name="SecurityPostureScore" type="integer" nullok="false" desc="Calculated Cyber Security Posture Score (0-100)"/>
+</entity>

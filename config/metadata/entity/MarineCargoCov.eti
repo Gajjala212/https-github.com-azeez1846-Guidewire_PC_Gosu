@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity xmlns="http://guidewire.com/datamodel" entity="MarineCargoCov" table="marine_cargo_cov" type="effdated" desc="Ocean cargo coverage, valuation basis, war/strikes endorsement, and transit terms.">
+  <column name="CommodityClass" type="shorttext" nullok="false" desc="Commodity classification: GENERAL_DRY, PERISHABLES, ELECTRONICS, CRUDE_OIL"/>
+  <column name="ValuationBasis" type="shorttext" nullok="false" desc="CIF_PLUS_TEN_PERCENT, INVOICE_VALUE, AGREED_VALUE"/>
+  <column name="WarStrikesIncluded" type="bit" nullok="false" desc="Includes Institute War Clauses and Strikes Clauses"/>
+  <column name="PiracyCorridorEndorsement" type="bit" nullok="false" desc="Transiting high-risk transit waters (Red Sea / Gulf of Guinea)"/>
+  <column name="CargoPremium" type="decimal" precision="12" scale="2" nullok="false" desc="Earned cargo voyage premium"/>
+</entity>
