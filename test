@@ -1,0 +1,30 @@
+SELECT DISTINCT
+    job.createtime      AS job_createtime,
+    job.jobnumber       AS jobnumber,
+    pp.policynumber     AS policynumber,
+    bm.name             AS billingmethod,
+    pol.productcode     AS lob,
+    jobsubtype.name     AS jobtype
+FROM pc10_replication.pc_job job
+JOIN pc10_replication.pctl_job jobsubtype 
+    ON job.subtype = jobsubtype.id 
+    AND LOWER(jobsubtype.typecode) IN ('submission', 'renewal')
+JOIN pc10_replication.pc_policyperiod pp 
+    ON pp.jobid = job.id 
+    AND pp.retired = 0
+JOIN pc10_replication.pc_policy pol 
+    ON pp.policyid = pol.id 
+    AND pol.retired = 0
+    AND pol.productcode IN (
+        'CA7CommAuto', 
+        'GL7GeneralLiability', 
+        'CommercialUmbrella', 
+        'PropertySelect', 
+        'PropertySelectLine', 
+        'WCMWorkersComp'
+    )
+LEFT JOIN pc10_replication.pctl_billingmethod bm 
+    ON pp.billingmethod = bm.id
+WHERE job.retired = 0
+  AND job.createtime >= '2026-08-03 00:00:00'
+ORDER BY job.createtime DESC
